@@ -59,7 +59,361 @@
             text-decoration: none;
         }
     </style>
-    <script type="text/javascript" class="silex-script"></script>
+    <script type="text/javascript" class="silex-script">
+        !function() {
+        
+          var today = moment();
+        
+          function Calendar(selector, events) {
+            this.el = document.querySelector(selector);
+            this.events = events;
+            this.current = moment().date(1);
+            this.draw();
+            var current = document.querySelector('.today');
+            if(current) {
+              var self = this;
+              window.setTimeout(function() {
+                self.openDay(current);
+              }, 500);
+            }
+          }
+        
+          Calendar.prototype.draw = function() {
+            //Create Header
+            this.drawHeader();
+        
+            //Draw Month
+            this.drawMonth();
+        
+            this.drawLegend();
+          }
+        
+          Calendar.prototype.drawHeader = function() {
+            var self = this;
+            if(!this.header) {
+              //Create the header elements
+              this.header = createElement('div', 'header');
+              this.header.className = 'header';
+        
+              this.title = createElement('h1');
+        
+              var right = createElement('div', 'right');
+              right.addEventListener('click', function() { self.nextMonth(); });
+        
+              var left = createElement('div', 'left');
+              left.addEventListener('click', function() { self.prevMonth(); });
+        
+              //Append the Elements
+              this.header.appendChild(this.title); 
+              this.header.appendChild(right);
+              this.header.appendChild(left);
+              this.el.appendChild(this.header);
+            }
+        
+            this.title.innerHTML = this.current.format('MMMM YYYY');
+          }
+        
+          Calendar.prototype.drawMonth = function() {
+            var self = this;
+            
+            this.events.forEach(function(ev) {
+             ev.date = self.current.clone().date(Math.random() * (29 - 1) + 1);
+            });
+            
+            
+            if(this.month) {
+              this.oldMonth = this.month;
+              this.oldMonth.className = 'month out ' + (self.next ? 'next' : 'prev');
+              this.oldMonth.addEventListener('webkitAnimationEnd', function() {
+                self.oldMonth.parentNode.removeChild(self.oldMonth);
+                self.month = createElement('div', 'month');
+                self.backFill();
+                self.currentMonth();
+                self.fowardFill();
+                self.el.appendChild(self.month);
+                window.setTimeout(function() {
+                  self.month.className = 'month in ' + (self.next ? 'next' : 'prev');
+                }, 16);
+              });
+            } else {
+                this.month = createElement('div', 'month');
+                this.el.appendChild(this.month);
+                this.backFill();
+                this.currentMonth();
+                this.fowardFill();
+                this.month.className = 'month new';
+            }
+          }
+        
+          Calendar.prototype.backFill = function() {
+            var clone = this.current.clone();
+            var dayOfWeek = clone.day();
+        
+            if(!dayOfWeek) { return; }
+        
+            clone.subtract('days', dayOfWeek+1);
+        
+            for(var i = dayOfWeek; i > 0 ; i--) {
+              this.drawDay(clone.add('days', 1));
+            }
+          }
+        
+          Calendar.prototype.fowardFill = function() {
+            var clone = this.current.clone().add('months', 1).subtract('days', 1);
+            var dayOfWeek = clone.day();
+        
+            if(dayOfWeek === 6) { return; }
+        
+            for(var i = dayOfWeek; i < 6 ; i++) {
+              this.drawDay(clone.add('days', 1));
+            }
+          }
+        
+          Calendar.prototype.currentMonth = function() {
+            var clone = this.current.clone();
+        
+            while(clone.month() === this.current.month()) {
+              this.drawDay(clone);
+              clone.add('days', 1);
+            }
+          }
+        
+          Calendar.prototype.getWeek = function(day) {
+            if(!this.week || day.day() === 0) {
+              this.week = createElement('div', 'week');
+              this.month.appendChild(this.week);
+            }
+          }
+        
+          Calendar.prototype.drawDay = function(day) {
+            var self = this;
+            this.getWeek(day);
+        
+            //Outer Day
+            var outer = createElement('div', this.getDayClass(day));
+            outer.addEventListener('click', function() {
+              self.openDay(this);
+            });
+        
+            //Day Name
+            var name = createElement('div', 'day-name', day.format('ddd'));
+        
+            //Day Number
+            var number = createElement('div', 'day-number', day.format('DD'));
+        
+        
+            //Events
+            var events = createElement('div', 'day-events');
+            this.drawEvents(day, events);
+        
+            outer.appendChild(name);
+            outer.appendChild(number);
+            outer.appendChild(events);
+            this.week.appendChild(outer);
+          }
+        
+          Calendar.prototype.drawEvents = function(day, element) {
+            if(day.month() === this.current.month()) {
+              var todaysEvents = this.events.reduce(function(memo, ev) {
+                if(ev.date.isSame(day, 'day')) {
+                  memo.push(ev);
+                }
+                return memo;
+              }, []);
+        
+              todaysEvents.forEach(function(ev) {
+                var evSpan = createElement('span', ev.color);
+                element.appendChild(evSpan);
+              });
+            }
+          }
+        
+          Calendar.prototype.getDayClass = function(day) {
+            classes = ['day'];
+            if(day.month() !== this.current.month()) {
+              classes.push('other');
+            } else if (today.isSame(day, 'day')) {
+              classes.push('today');
+            }
+            return classes.join(' ');
+          }
+        
+          Calendar.prototype.openDay = function(el) {
+            var details, arrow;
+            var dayNumber = +el.querySelectorAll('.day-number')[0].innerText || +el.querySelectorAll('.day-number')[0].textContent;
+            var day = this.current.clone().date(dayNumber);
+        
+            var currentOpened = document.querySelector('.details');
+        
+            //Check to see if there is an open detais box on the current row
+            if(currentOpened && currentOpened.parentNode === el.parentNode) {
+              details = currentOpened;
+              arrow = document.querySelector('.arrow');
+            } else {
+              //Close the open events on differnt week row
+              //currentOpened && currentOpened.parentNode.removeChild(currentOpened);
+              if(currentOpened) {
+                currentOpened.addEventListener('webkitAnimationEnd', function() {
+                  currentOpened.parentNode.removeChild(currentOpened);
+                });
+                currentOpened.addEventListener('oanimationend', function() {
+                  currentOpened.parentNode.removeChild(currentOpened);
+                });
+                currentOpened.addEventListener('msAnimationEnd', function() {
+                  currentOpened.parentNode.removeChild(currentOpened);
+                });
+                currentOpened.addEventListener('animationend', function() {
+                  currentOpened.parentNode.removeChild(currentOpened);
+                });
+                currentOpened.className = 'details out';
+              }
+        
+              //Create the Details Container
+              details = createElement('div', 'details in');
+        
+              //Create the arrow
+              var arrow = createElement('div', 'arrow');
+        
+              //Create the event wrapper
+        
+              details.appendChild(arrow);
+              el.parentNode.appendChild(details);
+            }
+        
+            var todaysEvents = this.events.reduce(function(memo, ev) {
+              if(ev.date.isSame(day, 'day')) {
+                memo.push(ev);
+              }
+              return memo;
+            }, []);
+        
+            this.renderEvents(todaysEvents, details);
+        
+            arrow.style.left = el.offsetLeft - el.parentNode.offsetLeft + 27 + 'px';
+          }
+        
+          Calendar.prototype.renderEvents = function(events, ele) {
+            //Remove any events in the current details element
+            var currentWrapper = ele.querySelector('.events');
+            var wrapper = createElement('div', 'events in' + (currentWrapper ? ' new' : ''));
+        
+            events.forEach(function(ev) {
+              var div = createElement('div', 'event');
+              var square = createElement('div', 'event-category ' + ev.color);
+              var span = createElement('span', '', ev.eventName);
+        
+              div.appendChild(square);
+              div.appendChild(span);
+              wrapper.appendChild(div);
+            });
+        
+            if(!events.length) {
+              var div = createElement('div', 'event empty');
+              var span = createElement('span', '', 'No Events');
+        
+              div.appendChild(span);
+              wrapper.appendChild(div);
+            }
+        
+            if(currentWrapper) {
+              currentWrapper.className = 'events out';
+              currentWrapper.addEventListener('webkitAnimationEnd', function() {
+                currentWrapper.parentNode.removeChild(currentWrapper);
+                ele.appendChild(wrapper);
+              });
+              currentWrapper.addEventListener('oanimationend', function() {
+                currentWrapper.parentNode.removeChild(currentWrapper);
+                ele.appendChild(wrapper);
+              });
+              currentWrapper.addEventListener('msAnimationEnd', function() {
+                currentWrapper.parentNode.removeChild(currentWrapper);
+                ele.appendChild(wrapper);
+              });
+              currentWrapper.addEventListener('animationend', function() {
+                currentWrapper.parentNode.removeChild(currentWrapper);
+                ele.appendChild(wrapper);
+              });
+            } else {
+              ele.appendChild(wrapper);
+            }
+          }
+        
+          Calendar.prototype.drawLegend = function() {
+            var legend = createElement('div', 'legend');
+            var calendars = this.events.map(function(e) {
+              return e.calendar + '|' + e.color;
+            }).reduce(function(memo, e) {
+              if(memo.indexOf(e) === -1) {
+                memo.push(e);
+              }
+              return memo;
+            }, []).forEach(function(e) {
+              var parts = e.split('|');
+              var entry = createElement('span', 'entry ' +  parts[1], parts[0]);
+              legend.appendChild(entry);
+            });
+            this.el.appendChild(legend);
+          }
+        
+          Calendar.prototype.nextMonth = function() {
+            this.current.add('months', 1);
+            this.next = true;
+            this.draw();
+          }
+        
+          Calendar.prototype.prevMonth = function() {
+            this.current.subtract('months', 1);
+            this.next = false;
+            this.draw();
+          }
+        
+          window.Calendar = Calendar;
+        
+          function createElement(tagName, className, innerText) {
+            var ele = document.createElement(tagName);
+            if(className) {
+              ele.className = className;
+            }
+            if(innerText) {
+              ele.innderText = ele.textContent = innerText;
+            }
+            return ele;
+          }
+        }();
+        
+        !function() {
+          var data = [
+            { eventName: 'Lunch Meeting w/ Mark', calendar: 'Work', color: 'orange' },
+            { eventName: 'Interview - Jr. Web Developer', calendar: 'Work', color: 'orange' },
+            { eventName: 'Demo New App to the Board', calendar: 'Work', color: 'orange' },
+            { eventName: 'Dinner w/ Marketing', calendar: 'Work', color: 'orange' },
+        
+            { eventName: 'Game vs Portalnd', calendar: 'Sports', color: 'blue' },
+            { eventName: 'Game vs Houston', calendar: 'Sports', color: 'blue' },
+            { eventName: 'Game vs Denver', calendar: 'Sports', color: 'blue' },
+            { eventName: 'Game vs San Degio', calendar: 'Sports', color: 'blue' },
+        
+            { eventName: 'School Play', calendar: 'Kids', color: 'yellow' },
+            { eventName: 'Parent/Teacher Conference', calendar: 'Kids', color: 'yellow' },
+            { eventName: 'Pick up from Soccer Practice', calendar: 'Kids', color: 'yellow' },
+            { eventName: 'Ice Cream Night', calendar: 'Kids', color: 'yellow' },
+        
+            { eventName: 'Free Tamale Night', calendar: 'Other', color: 'green' },
+            { eventName: 'Bowling Team', calendar: 'Other', color: 'green' },
+            { eventName: 'Teach Kids to Code', calendar: 'Other', color: 'green' },
+            { eventName: 'Startup Weekend', calendar: 'Other', color: 'green' }
+          ];
+        
+          
+        
+          function addDate(ev) {
+            
+          }
+        
+          var calendar = new Calendar('#calendar', data);
+        
+        }();
+    </script>
     <style class="silex-inline-styles" type="text/css">
         .body-initial {
             background-color: rgba(255, 255, 255, 1);
@@ -182,14 +536,14 @@
         }
         
         .silex-id-1484949486466-5 {
-            top: 1354px;
-            left: 0px;
+            top: 274px;
+            left: 5px;
             background-color: transparent;
             min-width: 900px;
         }
         
         .silex-id-1484949486465-4 {
-            min-height: 636px;
+            min-height: 846px;
             background-color: transparent;
             top: 15px;
             left: 322px;
@@ -208,6 +562,14 @@
             min-height: 622px;
             top: 5px;
             left: 455px;
+        }
+        
+        .silex-id-1514325049567-8 {
+            width: 100px;
+            background-color: rgb(255, 255, 255);
+            min-height: 100px;
+            top: 691px;
+            left: 361px;
         }
         
         .silex-id-1484949640479-7 {
@@ -275,13 +637,13 @@
         }
         
         .silex-id-1507142141373-6 {
-            top: 278px;
+            top: 274px;
             left: 5px;
             min-width: 900px;
         }
         
         .silex-id-1507142141373-7 {
-            min-height: 647px;
+            min-height: 660px;
             background-color: transparent;
             top: 15px;
             left: 130px;
@@ -299,8 +661,8 @@
         .silex-id-1514323237123-0 {
             width: 324px;
             min-height: 126px;
-            top: 495px;
-            left: 288px;
+            top: 475px;
+            left: 62px;
         }
         
         .silex-id-1484949434473-3 {
@@ -344,14 +706,14 @@
 
 
 
-    <title>Food and drink template</title>
-    <meta name="description" content="The description displayed in search results">
+    <title>Veredeling</title>
+    <meta name="description" content="Koninklijke Toneelkring Veredeling Vosselaar">
 
     <meta name="twitter:card" content="summary">
     <meta name="twitter:title" content="Check this site, friends!">
     <meta name="og:title" content="Check this site, friends!">
-    <meta name="twitter:description" content="The description displayed in social networks">
-    <meta name="og:description" content="The description displayed in social networks">
+    <meta name="twitter:description" content="Koninklijke Toneelkring Veredeling Vosselaar">
+    <meta name="og:description" content="Koninklijke Toneelkring Veredeling Vosselaar">
     <meta name="twitter:image" content="http://localhost:6805/api/1.0/www/exec/get//tmp/food-and-drink/assets/lunch.jpg">
     <meta name="og:image" content="http://localhost:6805/api/1.0/www/exec/get//tmp/food-and-drink/assets/lunch.jpg">
     <meta name="twitter:site" content="@silexlabs">
@@ -404,7 +766,7 @@
 
 
     <script type="text/javascript" class="silex-json-styles">
-        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"3px","top":"187px","width":"895px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"78px","top":"4px","width":"182px","min-height":"31px"},"silex-id-1424710332527":{"left":"1px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)"},"silex-id-1426536866650":{"background-color":"transparent","left":"263px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"1px","top":"0px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"448px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"633px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"900px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"100px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid"},"silex-id-1484949434473-3":{"top":"956px","left":"5px","min-width":"900px"},"silex-id-1484949486465-4":{"min-height":"636px","background-color":"transparent","top":"15px","left":"322px","width":"900px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"1354px","left":"0px","background-color":"transparent","min-width":"900px"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"900px"},"silex-id-1505408351768-0":{"width":"734px","min-height":"180px","top":"2px","left":"83px"},"silex-id-1505408851555-2":{"width":"440px","min-height":"622px","top":"5px","left":"455px"},"silex-id-1505408868850-3":{"width":"440px","min-height":"622px","top":"5px","left":"5px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"890px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"278px","left":"5px","min-width":"900px"},"silex-id-1507142141373-7":{"min-height":"647px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1507142523046-9":{"width":"379px","min-height":"64px","top":"12px","left":"498px"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"400px","height":"383px","background-color":"transparent","top":"21px","left":"250px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"15px","left":"15px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"495px","left":"288px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""}}}]
+        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"3px","top":"187px","width":"895px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"78px","top":"4px","width":"182px","min-height":"31px"},"silex-id-1424710332527":{"left":"1px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)"},"silex-id-1426536866650":{"background-color":"transparent","left":"263px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"1px","top":"0px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"448px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"633px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"900px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"100px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid"},"silex-id-1484949434473-3":{"top":"956px","left":"5px","min-width":"900px"},"silex-id-1484949486465-4":{"min-height":"846px","background-color":"transparent","top":"15px","left":"322px","width":"900px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"900px","border-color":"#000000"},"silex-id-1505408351768-0":{"width":"734px","min-height":"180px","top":"2px","left":"83px"},"silex-id-1505408851555-2":{"width":"440px","min-height":"622px","top":"5px","left":"455px"},"silex-id-1505408868850-3":{"width":"440px","min-height":"622px","top":"5px","left":"5px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"890px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"274px","left":"5px","min-width":"900px"},"silex-id-1507142141373-7":{"min-height":"660px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1507142523046-9":{"width":"379px","min-height":"64px","top":"12px","left":"498px"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"400px","height":"383px","background-color":"transparent","top":"21px","left":"250px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"15px","left":"15px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"475px","left":"62px"},"silex-id-1514325049567-8":{"width":"100px","background-color":"rgb(255, 255, 255)","min-height":"100px","top":"691px","left":"361px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""}}}]
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.2" data-silex-viewport="">
 
@@ -496,12 +858,19 @@
 
 
 
+
+
+
+    <script src="//editor.silex.me/static/2.7/osm/ol.js" data-silex-static="" data-dependency=""></script>
+
     <style id="current-page-style">
-        .page-over-ons {
+        .page-home {
             display: inherit;
         }
     </style>
     <!-- Silex HEAD tag do not remove -->
+    <div id="calendar"></div>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.5.1/moment.min.js"></script>
     <!-- End of Silex HEAD tag do not remove -->
 </head>
 
@@ -613,7 +982,7 @@
         <div data-silex-type="image" data-silex-id="silex-id-hamburger-menu" class="menu-button editable-style silex-id-hamburger-menu image-element page-page-1 paged-element prevent-draggable prevent-resizable"><img alt="open mobile menu" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAoCAYAAAC8cqlMAAAB5UlEQVR42u2ZPWvCUBSGM+UfFO3e3dLu/QN+oKj4EUXRQREEJYgoiCAu6qCogyDo7iJ21UUaKqEgCC4iiEMGB3UVgsnpTWj/wfVK2nvhGbKEPJyT996TMMzPGg6H5mKx+GgkyuWyeTQasb8OTDwef4tEIp8+n+/LYIjJZJJHQiwzm81M6OLDarWqNpsNjEYgEJCy2ewT0+/3TagighElNFAnQT6ft1ARKkJFqMgfFvF4PFpuEwFtdrcRqVarIIoirFYrIiyXSxiPx+B2u/GJBINBuF6vQHopigK1Wg2fCMdxcLlciIuoqgqNRgOfiN1uB3Qwg91uB8fjkQiHwwEmkwne1qLxS0VuKKJle71eh06nQ4Rmswk8z+MVcTqdsNlsQJZlotF7Pp8hk8ngE4lGo/qN7xG/vV4Pb0Xm8zlxkdPpBGgMx/+yJxIJKBQKRMjlcuBwOGhq/Q+RcDgMsViMCFrAuFwu/CKDwQC22y1IkkSE/X4PgiDo+xc2Ea0S9zjGa/Hb7Xbxifj9fj0K7yFSqVTwtlY6nYbpdKpPiSRYLBbQarX0PYymFhWhIlSEilCRW6GdyUqlkoVZr9dsKpXiOY6TtW+7BkNBz/7ebrcf9L+6Xq+XRYPMMyrTq5EIhUIvaAjTJb4BBNQ2yhnth0wAAAAASUVORK5CYII="
                 class="silex-element-content"></div>
 
-        <a id="page-home" data-silex-type="page" class="page-element">Home</a><a class="page-element page-link-active" data-silex-type="page" id="page-over-ons">Over ons</a><a id="page-reserveren" data-silex-type="page" class="page-element">Reserveren</a>
+        <a id="page-home" data-silex-type="page" class="page-element page-link-active">Home</a><a class="page-element" data-silex-type="page" id="page-over-ons">Over ons</a><a id="page-reserveren" data-silex-type="page" class="page-element">Reserveren</a>
         <a class="page-element" data-silex-type="page" id="page-contact">Contact</a><a id="page-leden" data-silex-type="page" class="page-element">Leden</a>
     </div>
 
@@ -669,7 +1038,7 @@
 
 
 
-            <div data-silex-type="image" class="editable-style silex-id-1505408351768-0 image-element" data-silex-id="silex-id-1505408351768-0" style="" data-silex-href="#!page-home"><img src="assets/banner.png" class="silex-element-content"></div>
+            <div data-silex-type="image" class="editable-style silex-id-1505408351768-0 image-element page-link-active" data-silex-id="silex-id-1505408351768-0" style="" data-silex-href="#!page-home"><img src="assets/banner.png" class="silex-element-content"></div>
 
 
 
@@ -702,7 +1071,7 @@
 
                 <div data-silex-type="container" class="editable-style container-element silex-id-1424710433398 editable-plugin-created" data-silex-id="silex-id-1424710433398" style="">
 
-                    <div data-silex-type="text" class="editable-style text-element silex-id-1424710332527 nav-element" data-silex-id="silex-id-1424710332527" data-silex-href="#!page-home" style="">
+                    <div data-silex-type="text" class="editable-style text-element silex-id-1424710332527 nav-element page-link-active" data-silex-id="silex-id-1424710332527" data-silex-href="#!page-home" style="">
                         <div class="silex-element-content normal">
                             <div style="text-align: center;">HOME</div>
                         </div>
@@ -711,7 +1080,7 @@
                 <div data-silex-type="container" class="editable-style silex-id-1426536866650 editable-plugin-created container-element" data-silex-id="silex-id-1426536866650" style="">
 
 
-                    <div data-silex-type="text" class="editable-style text-element nav-element silex-id-1434634286307-1 page-link-active" data-silex-id="silex-id-1434634286307-1" data-silex-href="#!page-over-ons" style="">
+                    <div data-silex-type="text" class="editable-style text-element nav-element silex-id-1434634286307-1" data-silex-id="silex-id-1434634286307-1" data-silex-href="#!page-over-ons" style="">
                         <div class="silex-element-content normal">
                             <div style="text-align: center;">OVER ONS</div>
                         </div>
@@ -762,6 +1131,11 @@
             <div data-silex-type="image" class="editable-style silex-id-1505408868850-3 image-element" data-silex-id="silex-id-1505408868850-3" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_front.jpg" class="silex-element-content"></div>
 
             <div data-silex-type="image" class="editable-style silex-id-1505408851555-2 image-element" data-silex-id="silex-id-1505408851555-2" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_back.jpg" class="silex-element-content"></div>
+            <div data-silex-type="html" class="editable-style silex-id-1514325049567-8 html-element" data-silex-id="silex-id-1514325049567-8" style="">
+                <div class="silex-element-content">
+                    <p>New HTML box</p>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1164,7 +1538,8 @@
                 </div>
             </div>
 
-            <div data-silex-type="text" class="editable-style silex-id-1514323237123-0 text-element page-contact paged-element" data-silex-id="silex-id-1514323237123-0" style="">
+
+            <div data-silex-type="text" class="editable-style silex-id-1514323237123-0 text-element" data-silex-id="silex-id-1514323237123-0" style="">
                 <div class="silex-element-content normal">
                     <div><a href="mailto:voorzitter@veredeling.be" style="font-family: &quot;Times New Roman&quot;; font-size: medium;">voorzitter@veredeling.be</a><span style="font-family: &quot;Times New Roman&quot;; font-size: medium;">&nbsp;</span>
                         <span style="font-family: &quot;Times New Roman&quot;; font-size: medium;">&nbsp;&nbsp; &nbsp;</span><span style="font-family: &quot;Times New Roman&quot;; font-size: medium;">&nbsp;&nbsp; &nbsp;</span><span class="date" style="font-family: &quot;Times New Roman&quot;; font-size: medium;">Jos Geets</span></div>
@@ -1252,6 +1627,10 @@
             </div>
         </div>
     </div>
+
+
+
+
 
 
 
