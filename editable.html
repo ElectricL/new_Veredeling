@@ -58,519 +58,6 @@
             color: #fefffd;
             text-decoration: none;
         }
-        
-        *,
-        *:before,
-        *:after {
-            -moz-box-sizing: border-box;
-            -webkit-box-sizing: border-box;
-            box-sizing: border-box;
-        }
-        
-        body {
-            overflow: hidden;
-            font-family: 'HelveticaNeue-UltraLight', 'Helvetica Neue UltraLight', 'Helvetica Neue', Arial, Helvetica, sans-serif;
-            font-weight: 100;
-            color: rgba(255, 255, 255, 1);
-            margin: 0;
-            padding: 0;
-            background: #4A4A4A;
-            -webkit-touch-callout: none;
-            -webkit-user-select: none;
-            -khtml-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        
-        #calendar {
-            -webkit-transform: translate3d(0, 0, 0);
-            -moz-transform: translate3d(0, 0, 0);
-            transform: translate3d(0, 0, 0);
-            width: 420px;
-            margin: 0 auto;
-            height: 570px;
-            overflow: hidden;
-        }
-        
-        .header {
-            height: 50px;
-            width: 420px;
-            background: rgba(66, 66, 66, 1);
-            text-align: center;
-            position: relative;
-            z-index: 100;
-        }
-        
-        .header h1 {
-            margin: 0;
-            padding: 0;
-            font-size: 20px;
-            line-height: 50px;
-            font-weight: 100;
-            letter-spacing: 1px;
-        }
-        
-        .left,
-        .right {
-            position: absolute;
-            width: 0px;
-            height: 0px;
-            border-style: solid;
-            top: 50%;
-            margin-top: -7.5px;
-            cursor: pointer;
-        }
-        
-        .left {
-            border-width: 7.5px 10px 7.5px 0;
-            border-color: transparent rgba(160, 159, 160, 1) transparent transparent;
-            left: 20px;
-        }
-        
-        .right {
-            border-width: 7.5px 0 7.5px 10px;
-            border-color: transparent transparent transparent rgba(160, 159, 160, 1);
-            right: 20px;
-        }
-        
-        .month {
-            /*overflow: hidden;*/
-            opacity: 0;
-        }
-        
-        .month.new {
-            -webkit-animation: fadeIn 1s ease-out;
-            opacity: 1;
-        }
-        
-        .month.in.next {
-            -webkit-animation: moveFromTopFadeMonth .4s ease-out;
-            -moz-animation: moveFromTopFadeMonth .4s ease-out;
-            animation: moveFromTopFadeMonth .4s ease-out;
-            opacity: 1;
-        }
-        
-        .month.out.next {
-            -webkit-animation: moveToTopFadeMonth .4s ease-in;
-            -moz-animation: moveToTopFadeMonth .4s ease-in;
-            animation: moveToTopFadeMonth .4s ease-in;
-            opacity: 1;
-        }
-        
-        .month.in.prev {
-            -webkit-animation: moveFromBottomFadeMonth .4s ease-out;
-            -moz-animation: moveFromBottomFadeMonth .4s ease-out;
-            animation: moveFromBottomFadeMonth .4s ease-out;
-            opacity: 1;
-        }
-        
-        .month.out.prev {
-            -webkit-animation: moveToBottomFadeMonth .4s ease-in;
-            -moz-animation: moveToBottomFadeMonth .4s ease-in;
-            animation: moveToBottomFadeMonth .4s ease-in;
-            opacity: 1;
-        }
-        
-        .week {
-            background: #4A4A4A;
-        }
-        
-        .day {
-            display: inline-block;
-            width: 60px;
-            padding: 10px;
-            text-align: center;
-            vertical-align: top;
-            cursor: pointer;
-            background: #4A4A4A;
-            position: relative;
-            z-index: 100;
-        }
-        
-        .day.other {
-            color: rgba(255, 255, 255, .3);
-        }
-        
-        .day.today {
-            color: rgba(156, 202, 235, 1);
-        }
-        
-        .day-name {
-            font-size: 9px;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            color: rgba(255, 255, 255, .5);
-            letter-spacing: .7px;
-        }
-        
-        .day-number {
-            font-size: 24px;
-            letter-spacing: 1.5px;
-        }
-        
-        .day .day-events {
-            list-style: none;
-            margin-top: 3px;
-            text-align: center;
-            height: 12px;
-            line-height: 6px;
-            overflow: hidden;
-        }
-        
-        .day .day-events span {
-            vertical-align: top;
-            display: inline-block;
-            padding: 0;
-            margin: 0;
-            width: 5px;
-            height: 5px;
-            line-height: 5px;
-            margin: 0 1px;
-        }
-        
-        .blue {
-            background: rgba(156, 202, 235, 1);
-        }
-        
-        .orange {
-            background: rgba(247, 167, 0, 1);
-        }
-        
-        .green {
-            background: rgba(153, 198, 109, 1);
-        }
-        
-        .yellow {
-            background: rgba(249, 233, 0, 1);
-        }
-        
-        .details {
-            position: relative;
-            width: 420px;
-            height: 75px;
-            background: rgba(164, 164, 164, 1);
-            margin-top: 5px;
-            border-radius: 4px;
-        }
-        
-        .details.in {
-            -webkit-animation: moveFromTopFade .5s ease both;
-            -moz-animation: moveFromTopFade .5s ease both;
-            animation: moveFromTopFade .5s ease both;
-        }
-        
-        .details.out {
-            -webkit-animation: moveToTopFade .5s ease both;
-            -moz-animation: moveToTopFade .5s ease both;
-            animation: moveToTopFade .5s ease both;
-        }
-        
-        .arrow {
-            position: absolute;
-            top: -5px;
-            left: 50%;
-            margin-left: -2px;
-            width: 0px;
-            height: 0px;
-            border-style: solid;
-            border-width: 0 5px 5px 5px;
-            border-color: transparent transparent rgba(164, 164, 164, 1) transparent;
-            transition: all 0.7s ease;
-        }
-        
-        .events {
-            height: 75px;
-            padding: 7px 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-        }
-        
-        .events.in {
-            -webkit-animation: fadeIn .3s ease both;
-            -moz-animation: fadeIn .3s ease both;
-            animation: fadeIn .3s ease both;
-        }
-        
-        .events.in {
-            -webkit-animation-delay: .3s;
-            -moz-animation-delay: .3s;
-            animation-delay: .3s;
-        }
-        
-        .details.out .events {
-            -webkit-animation: fadeOutShrink .4s ease both;
-            -moz-animation: fadeOutShink .4s ease both;
-            animation: fadeOutShink .4s ease both;
-        }
-        
-        .events.out {
-            -webkit-animation: fadeOut .3s ease both;
-            -moz-animation: fadeOut .3s ease both;
-            animation: fadeOut .3s ease both;
-        }
-        
-        .event {
-            font-size: 16px;
-            line-height: 22px;
-            letter-spacing: .5px;
-            padding: 2px 16px;
-            vertical-align: top;
-        }
-        
-        .event.empty {
-            color: #eee;
-        }
-        
-        .event-category {
-            height: 10px;
-            width: 10px;
-            display: inline-block;
-            margin: 6px 0 0;
-            vertical-align: top;
-        }
-        
-        .event span {
-            display: inline-block;
-            padding: 0 0 0 7px;
-        }
-        
-        .legend {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 30px;
-            background: rgba(60, 60, 60, 1);
-            line-height: 30px;
-        }
-        
-        .entry {
-            position: relative;
-            padding: 0 0 0 25px;
-            font-size: 13px;
-            display: inline-block;
-            line-height: 30px;
-            background: transparent;
-        }
-        
-        .entry:after {
-            position: absolute;
-            content: '';
-            height: 5px;
-            width: 5px;
-            top: 12px;
-            left: 14px;
-        }
-        
-        .entry.blue:after {
-            background: rgba(156, 202, 235, 1);
-        }
-        
-        .entry.orange:after {
-            background: rgba(247, 167, 0, 1);
-        }
-        
-        .entry.green:after {
-            background: rgba(153, 198, 109, 1);
-        }
-        
-        .entry.yellow:after {
-            background: rgba(249, 233, 0, 1);
-        }
-        /* Animations are cool!  */
-        
-        @-webkit-keyframes moveFromTopFade {
-            from {
-                opacity: .3;
-                height: 0px;
-                margin-top: 0px;
-                -webkit-transform: translateY(-100%);
-            }
-        }
-        
-        @-moz-keyframes moveFromTopFade {
-            from {
-                height: 0px;
-                margin-top: 0px;
-                -moz-transform: translateY(-100%);
-            }
-        }
-        
-        @keyframes moveFromTopFade {
-            from {
-                height: 0px;
-                margin-top: 0px;
-                transform: translateY(-100%);
-            }
-        }
-        
-        @-webkit-keyframes moveToTopFade {
-            to {
-                opacity: .3;
-                height: 0px;
-                margin-top: 0px;
-                opacity: 0.3;
-                -webkit-transform: translateY(-100%);
-            }
-        }
-        
-        @-moz-keyframes moveToTopFade {
-            to {
-                height: 0px;
-                -moz-transform: translateY(-100%);
-            }
-        }
-        
-        @keyframes moveToTopFade {
-            to {
-                height: 0px;
-                transform: translateY(-100%);
-            }
-        }
-        
-        @-webkit-keyframes moveToTopFadeMonth {
-            to {
-                opacity: 0;
-                -webkit-transform: translateY(-30%) scale(.95);
-            }
-        }
-        
-        @-moz-keyframes moveToTopFadeMonth {
-            to {
-                opacity: 0;
-                -moz-transform: translateY(-30%);
-            }
-        }
-        
-        @keyframes moveToTopFadeMonth {
-            to {
-                opacity: 0;
-                -moz-transform: translateY(-30%);
-            }
-        }
-        
-        @-webkit-keyframes moveFromTopFadeMonth {
-            from {
-                opacity: 0;
-                -webkit-transform: translateY(30%) scale(.95);
-            }
-        }
-        
-        @-moz-keyframes moveFromTopFadeMonth {
-            from {
-                opacity: 0;
-                -moz-transform: translateY(30%);
-            }
-        }
-        
-        @keyframes moveFromTopFadeMonth {
-            from {
-                opacity: 0;
-                -moz-transform: translateY(30%);
-            }
-        }
-        
-        @-webkit-keyframes moveToBottomFadeMonth {
-            to {
-                opacity: 0;
-                -webkit-transform: translateY(30%) scale(.95);
-            }
-        }
-        
-        @-moz-keyframes moveToBottomFadeMonth {
-            to {
-                opacity: 0;
-                -webkit-transform: translateY(30%);
-            }
-        }
-        
-        @keyframes moveToBottomFadeMonth {
-            to {
-                opacity: 0;
-                -webkit-transform: translateY(30%);
-            }
-        }
-        
-        @-webkit-keyframes moveFromBottomFadeMonth {
-            from {
-                opacity: 0;
-                -webkit-transform: translateY(-30%) scale(.95);
-            }
-        }
-        
-        @-moz-keyframes moveFromBottomFadeMonth {
-            from {
-                opacity: 0;
-                -webkit-transform: translateY(-30%);
-            }
-        }
-        
-        @keyframes moveFromBottomFadeMonth {
-            from {
-                opacity: 0;
-                -webkit-transform: translateY(-30%);
-            }
-        }
-        
-        @-webkit-keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-        }
-        
-        @-moz-keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-        }
-        
-        @-webkit-keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
-        }
-        
-        @-moz-keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
-        }
-        
-        @keyframes fadeOut {
-            to {
-                opacity: 0;
-            }
-        }
-        
-        @-webkit-keyframes fadeOutShink {
-            to {
-                opacity: 0;
-                padding: 0px;
-                height: 0px;
-            }
-        }
-        
-        @-moz-keyframes fadeOutShink {
-            to {
-                opacity: 0;
-                padding: 0px;
-                height: 0px;
-            }
-        }
-        
-        @keyframes fadeOutShink {
-            to {
-                opacity: 0;
-                padding: 0px;
-                height: 0px;
-            }
-        }
     </style>
     <script type="text/javascript" class="silex-script">
         !function() {
@@ -1056,7 +543,7 @@
         }
         
         .silex-id-1484949486465-4 {
-            min-height: 846px;
+            min-height: 1499px;
             background-color: transparent;
             top: 15px;
             left: 322px;
@@ -1077,12 +564,12 @@
             left: 455px;
         }
         
-        .silex-id-1514325049567-8 {
-            width: 100px;
+        .silex-id-1514326138797-16 {
+            width: 794px;
             background-color: rgb(255, 255, 255);
-            min-height: 100px;
-            top: 691px;
-            left: 361px;
+            min-height: 800px;
+            top: 665px;
+            left: 55px;
         }
         
         .silex-id-1484949640479-7 {
@@ -1179,13 +666,13 @@
         }
         
         .silex-id-1484949434473-3 {
-            top: 956px;
+            top: 1155px;
             left: 5px;
             min-width: 900px;
         }
         
         .silex-id-1484949434473-2 {
-            min-height: 100px;
+            min-height: 98px;
             background-color: transparent;
             top: 15px;
             left: 130px;
@@ -1279,7 +766,7 @@
 
 
     <script type="text/javascript" class="silex-json-styles">
-        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"3px","top":"187px","width":"895px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"78px","top":"4px","width":"182px","min-height":"31px"},"silex-id-1424710332527":{"left":"1px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)"},"silex-id-1426536866650":{"background-color":"transparent","left":"263px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"1px","top":"0px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"448px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"633px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"900px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"100px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid"},"silex-id-1484949434473-3":{"top":"956px","left":"5px","min-width":"900px"},"silex-id-1484949486465-4":{"min-height":"846px","background-color":"transparent","top":"15px","left":"322px","width":"900px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"900px","border-color":"#000000"},"silex-id-1505408351768-0":{"width":"734px","min-height":"180px","top":"2px","left":"83px"},"silex-id-1505408851555-2":{"width":"440px","min-height":"622px","top":"5px","left":"455px"},"silex-id-1505408868850-3":{"width":"440px","min-height":"622px","top":"5px","left":"5px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"890px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"274px","left":"5px","min-width":"900px"},"silex-id-1507142141373-7":{"min-height":"660px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1507142523046-9":{"width":"379px","min-height":"64px","top":"12px","left":"498px"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"400px","height":"383px","background-color":"transparent","top":"21px","left":"250px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"15px","left":"15px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"475px","left":"62px"},"silex-id-1514325049567-8":{"width":"100px","background-color":"rgb(255, 255, 255)","min-height":"100px","top":"691px","left":"361px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""}}}]
+        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"3px","top":"187px","width":"895px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"78px","top":"4px","width":"182px","min-height":"31px"},"silex-id-1424710332527":{"left":"1px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)"},"silex-id-1426536866650":{"background-color":"transparent","left":"263px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"1px","top":"0px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"448px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"633px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"1px","top":"0px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"900px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"98px","background-color":"transparent","top":"15px","left":"130px","width":"900px","border-width":"1px 1px 1px 1px ","border-style":"solid"},"silex-id-1484949434473-3":{"top":"1155px","left":"5px","min-width":"900px"},"silex-id-1484949486465-4":{"min-height":"1499px","background-color":"transparent","top":"15px","left":"322px","width":"900px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"900px","border-color":"#000000"},"silex-id-1505408351768-0":{"width":"734px","min-height":"180px","top":"2px","left":"83px"},"silex-id-1505408851555-2":{"width":"440px","min-height":"622px","top":"5px","left":"455px"},"silex-id-1505408868850-3":{"width":"440px","min-height":"622px","top":"5px","left":"5px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"890px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"274px","left":"5px","min-width":"900px"},"silex-id-1507142141373-7":{"min-height":"660px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1507142523046-9":{"width":"379px","min-height":"64px","top":"12px","left":"498px"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"400px","height":"383px","background-color":"transparent","top":"21px","left":"250px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"15px","left":"15px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"475px","left":"62px"},"silex-id-1514326138797-16":{"width":"794px","background-color":"rgb(255, 255, 255)","min-height":"800px","top":"665px","left":"55px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""}}}]
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.2" data-silex-viewport="">
 
@@ -1375,6 +862,8 @@
 
 
     <script src="//editor.silex.me/static/2.7/osm/ol.js" data-silex-static="" data-dependency=""></script>
+
+
 
     <style id="current-page-style">
         .page-home {
@@ -1644,9 +1133,14 @@
             <div data-silex-type="image" class="editable-style silex-id-1505408868850-3 image-element" data-silex-id="silex-id-1505408868850-3" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_front.jpg" class="silex-element-content"></div>
 
             <div data-silex-type="image" class="editable-style silex-id-1505408851555-2 image-element" data-silex-id="silex-id-1505408851555-2" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_back.jpg" class="silex-element-content"></div>
-            <div data-silex-type="html" class="editable-style silex-id-1514325049567-8 html-element" data-silex-id="silex-id-1514325049567-8" style="">
+
+            <div data-silex-type="html" class="editable-style silex-id-1514326138797-16 html-element" data-silex-id="silex-id-1514326138797-16" style="">
                 <div class="silex-element-content">
-                    <p>New HTML box</p>
+                    <!--
+Note: You can adjust the height and width parameters as desired.
+      You can also add or remove scrollbars by setting "scrolling=yes" or "scrolling=no"
+-->
+                    <iframe src="//localendar.com/public/ElectricLime?style=Y0" height="800" width="700" marginheight="0" marginwidth="0" scrolling="no" frameborder="0" border="0"></iframe>
                 </div>
             </div>
         </div>
@@ -2140,6 +1634,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 
