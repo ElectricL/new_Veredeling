@@ -551,6 +551,8 @@
 
 
 
+
+
     <style id="current-page-style">
         .page-home {
             display: inherit;
@@ -840,53 +842,297 @@
 
             <div data-silex-type="html" class="editable-style silex-id-1514391865676-8 html-element" data-silex-id="silex-id-1514391865676-8" style="">
                 <div class="silex-element-content">
-                    <!-- JS -->
-                    <script type="text/javascript">
-                        $(document).ready(function($) {
-                            $('#accordion').find('.accordion-toggle').click(function(){
-                        
-                              //Expand or collapse this panel
-                              $(this).next().slideToggle('fast');
-                        
-                              //Hide the other panels
-                              $(".accordion-content").not($(this).next()).slideUp('fast');
-                        
-                            });
-                          });
-                    </script>
-
-                    <!-- CSS -->
                     <style>
-                        .accordion-toggle {
-                            cursor: pointer;
-                            float: left;
+                        @import "compass/css3";
+                        /* Updated version - 24th Nov 2014 */
+                        
+                        @import "compass/reset";
+                        @import "compass/css3";
+                        /* Variables */
+                        
+                        $backgroundColor: #f77462;
+                        $list: #6dc5dd;
+                        $border: #5ab2ca;
+                        $geneicons: #fff;
+                        body {
+                            background: $backgroundColor;
+                            font-family: Lato, sans-serif;
                         }
                         
-                        .accordion-content {
-                            display: none;
-                            float: left;
+                        @font-face {
+                            font-family: 'Genericons';
+                            src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/53819/genericons-regular-webfont.eot');
+                            src: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/53819/genericons-regular-webfont.woff') format('woff'), url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/53819/genericons-regular-webfont.eot') format('truetype');
+                            font-weight: normal;
+                            font-style: normal;
                         }
                         
-                        .accordion-content.default {
+                        [class*="genericon"] {
+                            display: inline-block;
+                            width: 16px;
+                            height: 16px;
+                            -webkit-font-smoothing: antialiased;
+                            font-size: 16px;
+                            line-height: 1;
+                            font-family: 'Genericons';
+                            text-decoration: inherit;
+                            font-weight: normal;
+                            font-style: normal;
+                            vertical-align: top;
+                        }
+                        /* IE7 */
+                        
+                        [class*="genericon"] {
+                            *overflow: auto;
+                            *zoom: 1;
+                            *display: inline;
+                        }
+                        
+                        .container {
+                            margin: 100px auto;
+                        }
+                        
+                        .accordion {
+                            background: $border;
+                            width: 100%;
+                            min-width: 950px;
                             display: block;
-                            float: left;
+                            list-style-type: none;
+                            overflow: hidden;
+                            height: 200px;
+                            font-size: 0;
+                        }
+                        
+                        .tabs {
+                            display: inline-block;
+                            background-color: $list;
+                            border-right: $border 1px solid;
+                            width: 80px;
+                            height: 200px;
+                            overflow: hidden;
+                            position: relative;
+                            margin: 0;
+                            font-size: 16px;
+                            @include transition( all 0.4s 0.1s ease-in-out);
+                            &:hover {
+                                width: 450px;
+                                .social-links {
+                                    a {
+                                        &:before {
+                                            margin-left: -100px;
+                                        }
+                                        &:after {
+                                            margin-left: -5px;
+                                        }
+                                    }
+                                }
+                            }
+                            .paragraph {
+                                position: relative;
+                                width: 360px;
+                                margin-left: 80px;
+                                padding: 50px 0 0 10px;
+                                height: 200px;
+                                background: #fff;
+                                h1 {
+                                    font-size: 2.5em;
+                                    margin-bottom: 10px;
+                                }
+                                p {
+                                    font-size: 0.88em;
+                                    line-height: 1.5em;
+                                    padding-right: 30px;
+                                }
+                            }
+                        }
+                        
+                        .social-links {
+                            display: block;
+                            a {
+                                display: block;
+                                text-indent: -9999px;
+                                font-size: 0;
+                                line-height: 0;
+                                &:before,
+                                &:after {
+                                    @include transition( all 0.4s 0.1s ease-in-out);
+                                    width: 80px;
+                                    height: 200px;
+                                    position: absolute;
+                                    text-indent: 0;
+                                    padding-top: 90px;
+                                    padding-left: 25px;
+                                    display: block;
+                                    font: normal 30px Genericons;
+                                    color: $geneicons;
+                                }
+                                &:after {
+                                    font-size: 48px;
+                                    padding-left: 20px;
+                                    padding-top: 80px;
+                                    margin-left: 85px;
+                                }
+                            }
+                        }
+                        
+                        .twitter-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f202';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#7adcf9,
+                                    #4bc9f5));
+                                }
+                            }
+                        }
+                        
+                        .facebook-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f204';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#548abf,
+                                    #295b9e));
+                                }
+                            }
+                        }
+                        
+                        .linkedin-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f208';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#00a9cd,
+                                    #0083b4));
+                                }
+                            }
+                        }
+                        
+                        .insta-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f215';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#7fc121,
+                                    #298733));
+                                }
+                            }
+                        }
+                        
+                        .youtube-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f213';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#df192a,
+                                    #c41222));
+                                }
+                            }
+                        }
+                        
+                        .tumblr-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f214';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#283e56,
+                                    #325372));
+                                }
+                            }
+                        }
+                        
+                        .dribbble-icon {
+                            a {
+                                &:before,
+                                &:after {
+                                    content: '\f201';
+                                }
+                                &:after {
+                                    @include background-image(linear-gradient(#e03a70,
+                                    #f189b8));
+                                }
+                            }
                         }
                     </style>
 
-                    <!-- HTML -->
-                    <div id="accordion">
-                        <h4 class="accordion-toggle">Accordion 1</h4>
-                        <div class="accordion-content default">
-                            <p>Cras malesuada ultrices augue molestie risus.</p>
-                        </div>
-                        <h4 class="accordion-toggle">Accordion 2</h4>
-                        <div class="accordion-content">
-                            <p>Lorem ipsum dolor sit amet mauris eu turpis.</p>
-                        </div>
-                        <h4 class="accordion-toggle">Accordion 3</h4>
-                        <div class="accordion-content">
-                            <p>Vivamus facilisisnibh scelerisque laoreet.</p>
-                        </div>
+                    <div class="container">
+                        <ul class="accordion">
+                            <li class="tabs">
+                                <div class="social-links twitter-icon">
+                                    <a href="https://twitter.com/renettarenula">Twitter</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>Twitter</h1>
+                                    <p>My thoughts in 140 characters or less. Sometimes, I do not know how to correctly use Twitter.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links facebook-icon">
+                                    <a href="https://facebook.com">Facebook</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>Facebook</h1>
+                                    <p>Where I get to stalk my friends and let them stalk me. A place to get people to stroke your ego.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links linkedin-icon">
+                                    <a href="https://my.linkedin.com/pub/aysha-anggraini/49/a82/a05/">LinkedIn</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>LinkedIn</h1>
+                                    <p>I act totally professional on this one. It is what the recruiters see, you see.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links insta-icon">
+                                    <a href="http://instagram.com/renettarenula">Instagram</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>Instagram</h1>
+                                    <p>Where I post my duckface pictures. Occasionally, I would post pictures of my food and my cats.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links youtube-icon">
+                                    <a href="https://youtube.com">Youtube</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>YouTube</h1>
+                                    <p>Just kidding! I do not have a YouTube account. I'm not too fond of the camera.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links tumblr-icon">
+                                    <a href="https://renettarenula.tumblr.com/">Tumblr</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>Tumblr</h1>
+                                    <p>I have a tumblr but I don't really use it. I still prefer WordPress. I'm quite old-fashioned.</p>
+                                </div>
+                            </li>
+                            <li class="tabs">
+                                <div class="social-links dribbble-icon">
+                                    <a href="http://dribbble.com">Dribbble</a>
+                                </div>
+                                <div class="paragraph">
+                                    <h1>Dribbble</h1>
+                                    <p>I do not have a Dribbble account. Would any of you be so kind and send me an invite? </p>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -1392,6 +1638,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 
