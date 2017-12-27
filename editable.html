@@ -59,71 +59,8 @@
             text-decoration: none;
         }
         /* accordion */
-        
-        .banner-container {
-            overflow: hidden;
-            position: relative;
-            /*width:1024px;
-  margin:25px auto;*/
-        }
-        
-        .banner-container ul {
-            height: 639px;
-        }
-        
-        .banner-container li {
-            float: left;
-            overflow: hidden;
-            cursor: pointer;
-            position: relative;
-            z-index: 9;
-        }
-        
-        .banner-container li a {
-            display: block;
-            padding: 0px;
-            margin: 0px;
-        }
-        
-        .banner-container li span.overlay {
-            background: url('../images/bg-overlay.png') repeat;
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            top: 0px;
-            left: 0px;
-        }
     </style>
-    <script type="text/javascript" class="silex-script">
-        $(window).load(function(){
-          var sum=0;
-          $('.banner-container li img').each(function(){ 
-            sum += $(this).width();
-          });
-          $('.banner-container ul').width(sum);
-        });
-        
-        $(function(){
-          var winWidth = $(".banner-container").width();
-          var ulWidthCount = 0;
-          ulWidthCount = $('.banner-container li').size();
-          $(".banner-container li").width(winWidth/ulWidthCount);
-          $(".banner-container li").hover(function(){     
-            ulWidthCount = $('.banner-container li').size();
-            var imgWidth = $(this).find("img").width();
-            var bannerLi = winWidth - imgWidth;
-            var remWidth = ulWidthCount - 1;
-            var appWidth = bannerLi/remWidth;
-            $(".banner-container li").stop(true, false).animate({width: appWidth},700);
-            $(this).stop(true, false).animate({width: imgWidth},700);
-            $(this).find("span.overlay").stop(true, false).fadeOut();
-          }, function(){
-            $(this).animate({width: winWidth/ulWidthCount},700);
-            $(".banner-container li").animate({width:winWidth/ulWidthCount},700);
-            $(this).find("span.overlay").fadeIn();
-          }); 
-        });
-    </script>
+    <script type="text/javascript" class="silex-script"></script>
     <style class="silex-inline-styles" type="text/css">
         .body-initial {
             background-color: rgba(255, 255, 255, 1);
@@ -278,14 +215,6 @@
             min-height: 450px;
             top: 561px;
             left: 206px;
-        }
-        
-        .silex-id-1514381195634-5 {
-            width: 997px;
-            background-color: rgb(255, 255, 255);
-            min-height: 336px;
-            top: 11px;
-            left: 14px;
         }
         
         .silex-id-1484949640479-7 {
@@ -497,7 +426,7 @@
 
 
     <script type="text/javascript" class="silex-json-styles">
-        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover","border-color":"#000000"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"118px","top":"189px","width":"788px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"3px","top":"4px","width":"182px","min-height":"31px","border-color":"#000000"},"silex-id-1424710332527":{"left":"0px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)","border-color":"#000000"},"silex-id-1426536866650":{"background-color":"transparent","left":"203px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"2px","top":"-1px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"402px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"2px","top":"-1px","width":"180px","min-height":"30px","border-color":"#000000"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"603px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"0px","top":"-1px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"1024px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"1024px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"200px","background-color":"transparent","top":"15px","left":"130px","width":"1024px","border-width":"","border-style":""},"silex-id-1484949434473-3":{"top":"1155px","left":"5px","min-width":"1024px","border-color":"#000000"},"silex-id-1484949486465-4":{"min-height":"1140px","background-color":"transparent","top":"15px","left":"100px","width":"1024px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"274px","left":"5px","background-color":"transparent","min-width":"1024px","border-color":"#000000"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"1024px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"1024px","border-color":"#000000"},"silex-id-1505408351768-0":{"width":"788px","min-height":"180px","top":"2px","left":"118px","border-color":"#000000"},"silex-id-1505408851555-2":{"width":"320px","min-height":"450px","top":"559px","left":"566px"},"silex-id-1505408868850-3":{"width":"320px","min-height":"450px","top":"561px","left":"206px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"1014px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"274px","left":"5px","min-width":"1024px"},"silex-id-1507142141373-7":{"min-height":"995px","background-color":"transparent","top":"15px","left":"101px","width":"1024px"},"silex-id-1507142523046-9":{"width":"369px","min-height":"59px","top":"67px","left":"646px","border-color":"#000000"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"600px","height":"383px","background-color":"transparent","top":"39px","left":"212px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"60px","left":"18px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"836px","left":"351px"},"silex-id-1514376190238-0":{"width":"370px","min-height":"28px","top":"465px","left":"328px"},"silex-id-1514376868877-3":{"width":"600px","background-color":"rgb(255, 255, 255)","min-height":"304px","top":"490px","left":"212px"},"silex-id-1514379976447-2":{"width":"100px","min-height":"100px","top":"159px","left":"303px"},"silex-id-1514381195634-5":{"width":"997px","background-color":"rgb(255, 255, 255)","min-height":"336px","top":"11px","left":"14px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""},"silex-id-1514376240316-1":{"name":"map1","templateName":"map","url":"http://www.openstrehttp://www.openstreetmap.org/export#map=18/51.31247/4.8http://www.openstreetmap.org/export#map=18/51.31247/4.8http://www.openstreetmap.org/export#map=18/51.31247/4.88470&layers=N8470&layers=N8470&layers=Netmap.org/#map=18/48.87378/2.29489&layers=C"}}}]
+        [{"desktop":{"body-initial":{"background-color":"rgba(255,255,255,1)","background-image":"","background-position-x":"50%","background-position-y":"50%","background-size":"cover","border-color":"#000000"},"silex-id-1424710230648":{"background-color":"rgb(254, 255, 253)","border-top-color":"rgb(0, 0, 0)","border-right-color":"rgb(0, 0, 0)","border-bottom-color":"rgb(0, 0, 0)","border-left-color":"rgb(0, 0, 0)","left":"118px","top":"189px","width":"788px","border-top-left-radius":"5px","border-top-right-radius":"5px","border-bottom-right-radius":"0px","border-bottom-left-radius":"0px","min-height":"39px"},"silex-id-1424710433398":{"background-color":"rgb(255, 255, 255)","left":"3px","top":"4px","width":"182px","min-height":"31px","border-color":"#000000"},"silex-id-1424710332527":{"left":"0px","top":"0px","width":"180px","min-height":"30px","background-color":"rgba(254,255,253,1)","border-color":"#000000"},"silex-id-1426536866650":{"background-color":"transparent","left":"203px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434425184890-0":{"left":"2px","top":"-1px","width":"180px","min-height":"33px"},"silex-id-1434634286306-0":{"background-color":"transparent","left":"402px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634286307-1":{"left":"2px","top":"-1px","width":"180px","min-height":"30px","border-color":"#000000"},"silex-id-1434634331833-2":{"background-color":"transparent","left":"603px","top":"4px","width":"182px","min-height":"30px"},"silex-id-1434634331834-3":{"left":"0px","top":"-1px","width":"180px","min-height":"30px"},"silex-id-1484949224320-0":{"min-height":"232px","background-color":"transparent","top":"15px","left":"130px","width":"1024px","border-width":"1px 1px 1px 1px ","border-style":"solid","border-color":"#ffffff"},"silex-id-1484949224320-1":{"top":"5px","left":"5px","background-color":"transparent","min-width":"1024px","border-color":"#000000"},"silex-id-1484949434473-2":{"min-height":"200px","background-color":"transparent","top":"15px","left":"130px","width":"1024px","border-width":"","border-style":""},"silex-id-1484949434473-3":{"top":"1155px","left":"5px","min-width":"1024px","border-color":"#000000"},"silex-id-1484949486465-4":{"min-height":"1140px","background-color":"transparent","top":"15px","left":"100px","width":"1024px","border-width":"","border-style":""},"silex-id-1484949486466-5":{"top":"274px","left":"5px","background-color":"transparent","min-width":"1024px","border-color":"#000000"},"silex-id-1484949640479-6":{"min-height":"748px","background-color":"transparent","top":"15px","left":"130px","width":"900px"},"silex-id-1484949640479-7":{"top":"274px","left":"5px","background-color":"transparent","min-width":"900px"},"silex-id-1484949717486-8":{"min-height":"728px","background-color":"transparent","top":"15px","left":"130px","width":"1024px"},"silex-id-1484949717487-9":{"top":"274px","left":"5px","min-width":"1024px","border-color":"#000000"},"silex-id-1505408351768-0":{"width":"788px","min-height":"180px","top":"2px","left":"118px","border-color":"#000000"},"silex-id-1505408851555-2":{"width":"320px","min-height":"450px","top":"559px","left":"566px"},"silex-id-1505408868850-3":{"width":"320px","min-height":"450px","top":"561px","left":"206px"},"silex-id-1505409395106-7":{"min-height":"345px","background-color":"transparent","width":"900px"},"silex-id-1505409395106-6":{"top":"100px","left":"NaNpx","min-width":"900px"},"silex-id-1507138963770-0":{"width":"1014px","min-height":"378px","top":"5px","left":"5px"},"silex-id-1507142141373-6":{"top":"274px","left":"5px","min-width":"1024px"},"silex-id-1507142141373-7":{"min-height":"995px","background-color":"transparent","top":"15px","left":"101px","width":"1024px"},"silex-id-1507142523046-9":{"width":"369px","min-height":"59px","top":"67px","left":"646px","border-color":"#000000"},"silex-id-1507142568028-10":{"width":"687px","min-height":"317px","top":"8px","left":"93px"},"silex-id-1507142902195-12":{"width":"600px","height":"383px","background-color":"transparent","top":"39px","left":"212px"},"silex-id-1507143241792-13":{"width":"156px","min-height":"68px","background-color":"transparent","top":"60px","left":"18px"},"silex-id-1511893977608-0":{"width":"445px","background-color":"rgb(255, 255, 255)","min-height":"730px","top":"17px","left":"228px"},"silex-id-1514323237123-0":{"width":"324px","min-height":"126px","top":"836px","left":"351px"},"silex-id-1514376190238-0":{"width":"370px","min-height":"28px","top":"465px","left":"328px"},"silex-id-1514376868877-3":{"width":"600px","background-color":"rgb(255, 255, 255)","min-height":"304px","top":"490px","left":"212px"},"silex-id-1514379976447-2":{"width":"100px","min-height":"100px","top":"159px","left":"303px"}},"mobile":{"silex-id-1505408351768-0":{"top":"46px","left":"11px","width":"414px","min-height":"110px"}},"componentData":{"silex-id-1507142902195-12":{"name":"form1","templateName":"form","sendTo":"kimdaems@live.be","submitButtonLabel":"Verzenden","buttonTextColor":"#ffffff","buttonBackgroundColor":"#ff8000","buttonBorderColor":"#ff8000","field1":true,"label1":"Je naam","placeholder1":"","label2":"Je e-mailadres","placeholder2":"","label3":"Je bericht","placeholder3":"Typ hier je bericht..."},"silex-id-1507143241792-13":{"name":"share1","templateName":"share","style":"Flat Web Icon Set - Color","networks":["Facebook","Twitter","Email","Pinterest"],"url":"http://www.veredeling.be","title":"Veredeling Vosselaar","description":"Koninklijke Toneelkring Veredeling Vosselaar VZW","twitter":""},"silex-id-1514376240316-1":{"name":"map1","templateName":"map","url":"http://www.openstrehttp://www.openstreetmap.org/export#map=18/51.31247/4.8http://www.openstreetmap.org/export#map=18/51.31247/4.8http://www.openstreetmap.org/export#map=18/51.31247/4.88470&layers=N8470&layers=N8470&layers=Netmap.org/#map=18/48.87378/2.29489&layers=C"}}}]
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2.2" data-silex-viewport="">
 
@@ -898,28 +827,6 @@
 
             <div data-silex-type="image" class="editable-style silex-id-1505408851555-2 image-element" data-silex-id="silex-id-1505408851555-2" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_back.jpg" class="silex-element-content"></div>
             <div data-silex-type="image" class="editable-style silex-id-1505408868850-3 image-element" data-silex-id="silex-id-1505408868850-3" style="" data-silex-href="#!page-reserveren"><img src="assets/instappenaub_front.jpg" class="silex-element-content"></div>
-            <div data-silex-type="html" class="editable-style silex-id-1514381195634-5 html-element" data-silex-id="silex-id-1514381195634-5" style="">
-                <div class="silex-element-content">
-                    <script src="//code.jquery.com/jquery.min.js"></script>
-                    <div class="banner-container">
-                        <ul class="ul-width" style="width: 990px;">
-                            <li>
-                                <a href="#"><img src="https://3.bp.blogspot.com/-JshqzrQHvfs/V-xE6ONupgI/AAAAAAAA2Qc/-49qxlS9t_0xQhxkcAwWBGvmrFtdc-jkQCLcB/s1600/20160928_221056.jpeg" alt=""></a>
-                                <span class="overlay"></span>
-                            </li>
-                            <li>
-                                <a href="#"><img src="http://www.veredeling.be/img/04.JPG" alt=""></a>
-                                <span class="overlay"></span>
-                            </li>
-                            <li>
-                                <a href="#"><img src="https://4.bp.blogspot.com/-qStpSjFTtNw/V4QmJ_TJcxI/AAAAAAAA02A/P9u7jsn-asMSbfNmiC6wqA-8suTERhv9wCLcB/s1600/20160711_211422.jpeg" alt=""></a>
-                                <span class="overlay"></span>
-                            </li>
-                        </ul>
-                        <div class="clear"></div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
