@@ -58,8 +58,51 @@
             color: #fefffd;
             text-decoration: none;
         }
+        /************************************************\
+|  Accordion plugin                                |
+|  Based on http://www.armagost.com/zaccordion/    |
+ \************************************************/
+        /* style of the cells */
+        
+        .accordion>.editable-style {
+            box-shadow: -6px 0 10px -4px rgba(0, 0, 0, 0.5);
+        }
+        /* style when editing in Silex */
+        
+        body.editable-plugin-created .accordion {
+            overflow-y: auto;
+        }
+        
+        body.editable-plugin-created .accordion>.editable-style {
+            height: 100% !important;
+            width: 75% !important;
+            top: auto !important;
+            left: auto !important;
+            top: initial !important;
+            left: initial !important;
+            position: relative !important;
+            padding: 0px !important;
+        }
     </style>
-    <script type="text/javascript" class="silex-script"></script>
+    <script type="text/javascript" class="silex-script">
+        /************************************************\
+        |  Accordion plugin                                |
+        |  Based on http://www.armagost.com/zaccordion/    |
+         \************************************************/
+        document.write('<scr'+'ipt type="text/javascript" src="jquery.zaccordion.min.js"></scr'+'ipt>');
+        $(function(){
+            $(".accordion").each(function(){
+                $(this).zAccordion({
+                    timeout: 4000,
+                    slideWidth: Math.round($(this).width() * .75),
+                    width: Math.round($(this).width()),
+                    height: Math.round($(this).height())
+                });
+                // let Silex handle the style.display property (used by the pageable plugin)
+                $(this).css('display', '');
+            });
+        });
+    </script>
     <style class="silex-inline-styles" type="text/css">
         .body-initial {
             background-color: rgba(255, 255, 255, 1);
@@ -533,6 +576,8 @@
 
     <script src="//editor.silex.me/static/2.7/unslider/unslider-min.js" data-silex-static="" data-dependency=""></script>
     <link rel="stylesheet" href="//editor.silex.me/static/2.7/unslider/unslider.css" data-silex-static="" data-dependency="">
+
+
 
 
 
@@ -1325,6 +1370,8 @@
             </div>
         </div>
     </div>
+
+
 
 
 
